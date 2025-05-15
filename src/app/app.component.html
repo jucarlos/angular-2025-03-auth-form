@@ -10,22 +10,37 @@
     <h3>Home</h3>
     <hr>
     <ul class="list-group mb-3">
-      <li class="list-group-item">Home</li>
+      <li class="list-group-item"
+        routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</li>
     </ul>
 
 
     <!-- Autenticación -->
     <h3>Autenticación</h3>
     <ul class="list-group mb-3">
-      <li class="list-group-item">Login</li>
-      <li class="list-group-item">Registro</li>
+      <li class="list-group-item"
+          routerLink="auth/login"
+          routerLinkActive="active"
+        >Login</li>
+      
+      
+      <li class="list-group-item"
+        routerLink="auth/register"
+        routerLinkActive="active"
+        >Registro</li>
     </ul>
 
 
     <!-- Productos -->
     <h3>Productos</h3>
     <ul class="list-group mb-3">
-      <li class="list-group-item">Lista Productos</li>
+      <li class="list-group-item"
+        routerLink="products/products-list"
+        routerLinkActive="active"
+        >Lista Productos</li>
     </ul>
 
   </div>
@@ -34,18 +49,8 @@
 
   <div class="col">
 
-    <ul class="list-group">
-
-
-      <li class="list-group-item">Formularios Reactivos</li>
-      <li class="list-group-item">Peticiones HTTP ( https://nest-curso-angular-2025.onrender.com/ )</li>
-      <li class="list-group-item">Autenticación JWT</li>
-      <li class="list-group-item">Guards</li>
-      <li class="list-group-item">Navegación</li>
-      <li class="list-group-item">Interceptores</li>
-
-
-    </ul>
+    <router-outlet></router-outlet>
+  
   </div>
 
 
