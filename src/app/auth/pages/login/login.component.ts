@@ -12,24 +12,32 @@ export class LoginComponent {
 
   private fp = inject( FormBuilder );
 
+  public hasError: boolean = false;
+  public mensajeError: string = '';
+  public isPosting: boolean = false;
+  
+
 
   public miFormulario = this.fp.group({
 
     email: [ '', [ Validators.required, Validators.email ],  ],
 
-    password: ['', [ Validators.required, Validators.minLength( 6 )],  ],
+    password: ['', [ Validators.required, Validators.minLength( 6 ) ],  ],
 
   }, );
 
 
   onSubmit(): void {
 
+    this.hasError = false;
+
     console.log('Estamos en el submit');
 
     console.log( this.miFormulario.value );
 
     if ( this.miFormulario.invalid ) {
-      console.log('invalido');
+      this.hasError = true;
+      this.mensajeError = 'Formulario incorrecto';
       return;
 
     }

@@ -29,6 +29,12 @@
                                     id="password"
                                     class="form-control">
                             </div>
+
+                            @if( hasError ) {
+                                <shared-alert [mensaje]="mensajeError"></shared-alert>
+                            }
+                            
+
                              <div class="form-group mb-3">
                                 
                                 <button class="btn btn-info btn-md" type="submit">
