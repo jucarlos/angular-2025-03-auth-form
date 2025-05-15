@@ -1,5 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +12,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginComponent {
 
+  private authService = inject( AuthService );
+  private router = inject( Router );
 
   private fp = inject( FormBuilder );
-
+  
   public hasError: boolean = false;
   public mensajeError: string = '';
   public isPosting: boolean = false;
@@ -29,22 +34,33 @@ export class LoginComponent {
 
   onSubmit(): void {
 
+    if ( this.isPosting ) return;
+
     this.hasError = false;
-
-    console.log('Estamos en el submit');
-
-    console.log( this.miFormulario.value );
 
     if ( this.miFormulario.invalid ) {
       this.hasError = true;
       this.mensajeError = 'Formulario incorrecto';
       return;
-
     }
 
+    // desestructuración de objetos
+    const { email = '' , password = '' } = this.miFormulario.value;
 
-    console.log('Hacemos la petición de login')
+    this.isPosting = true;
 
+    this.authService.login( email!, password! ).subscribe ( resp => {
+
+
+      console.log( resp );
+      this.isPosting = false;
+
+    //TODO : Controlar cuando las credenciales son incorrrectas.
+
+      this.router.navigateByUrl('/');
+      
+
+    })
 
 
 
