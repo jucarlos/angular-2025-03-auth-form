@@ -21,6 +21,10 @@ export class AuthService {
   private token: string = '';
 
 
+  constructor() {
+    this.checkStatus().subscribe();
+  }
+
 
   public getAuthStatus(): AuthStatus {
 
@@ -53,6 +57,41 @@ export class AuthService {
   }
 
 
+  public checkStatus() {
+
+    this.authStatus = 'checking';
+    const token = localStorage.getItem('token') ;
+    if( !token ) {
+      this.logout();
+      return of ( false );
+    }
+
+    return this.http.get<AuthResponse>(`${baseUrl}/api/auth/check-status`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).pipe ( 
+
+      tap( resp => {
+
+        this.authStatus = 'authenticated';
+        this.user = resp.user;
+        this.token = resp.token;
+
+        localStorage.setItem('token', this.token);
+
+        console.log( 'Estoy en check estatus : ', resp );
+      }),
+
+      map( () => {
+        return true;
+      })
+
+
+    )
+
+
+  }
   
 
 
