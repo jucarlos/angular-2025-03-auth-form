@@ -49,13 +49,17 @@ export class LoginComponent {
 
     this.isPosting = true;
 
-    this.authService.login( email!, password! ).subscribe ( resp => {
+    this.authService.login( email!, password! ).subscribe ( isAuthenticaded => {
 
-
-      console.log( resp );
       this.isPosting = false;
+      
+      if ( !isAuthenticaded ) {
+        this.mensajeError = 'No estás autorizado';
+        this.hasError = true;
+        return;
+      }
 
-    //TODO : Controlar cuando las credenciales son incorrrectas.
+      console.log('Todo va bien');
 
       this.router.navigateByUrl('/');
       
