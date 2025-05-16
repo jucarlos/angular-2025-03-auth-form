@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/login-response.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { UserDto } from '../interfaces/user-dto.interface';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 const baseUrl = environment.baseUrl;
@@ -92,10 +93,34 @@ export class AuthService {
 
 
   }
+
+  public register(userDto: UserDto ): Observable<boolean> {
+
+    this.authStatus = 'checking';
+
+    return this.http.post<AuthResponse>(`${baseUrl}/api/auth/register`, 
+      userDto )
+      .pipe (
+
+        tap( resp => {
+          this.authenticationSuccess( resp );   
+         }),
+
+        map( () => {
+          return true;
+        } ),
+
+         catchError ( error => {
+              this.logout();
+              return of( false );
+        })
+
+      ) 
+  }
   
 
 
-  login(email: string , password: string ): Observable<boolean> {
+  public login(email: string , password: string ): Observable<boolean> {
 
 
     return this.http.post<AuthResponse>( `${baseUrl}/api/auth/login`, {
@@ -104,13 +129,7 @@ export class AuthService {
     }  ).pipe(
 
       tap( resp => {
-
-        this.authStatus = 'authenticated';
-        this.user = resp.user;
-        this.token = resp.token;
-
-        localStorage.setItem('token', this.token);
-        
+        this.authenticationSuccess( resp );
       }),
 
       map( () => {
@@ -132,6 +151,16 @@ export class AuthService {
 
   }
 
+
+  private authenticationSuccess( resp: AuthResponse ): void  {
+
+        this.authStatus = 'authenticated';
+        this.user = resp.user;
+        this.token = resp.token;
+
+        localStorage.setItem('token', this.token);
+
+  }
 
 
 

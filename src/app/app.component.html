@@ -21,6 +21,12 @@
     <!-- Autenticación -->
     <h3>Autenticación</h3>
 
+    @if( authService.getAuthStatus() === 'checking' ) {
+      <shared-spinner></shared-spinner>
+    }
+    
+    <br>
+
     @if ( authService.getAuthStatus() === 'authenticated') {
         <span class="fw-bold text-primary">
           {{ authService.getUser()?.fullName }}
@@ -30,7 +36,7 @@
 
     <ul class="list-group mb-3">
 
-      @if( authService.getAuthStatus() != 'authenticated') {
+      @if( authService.getAuthStatus() === 'not-authenticated') {
         
       <li class="list-group-item"
           routerLink="auth/login"
@@ -43,11 +49,15 @@
         routerLinkActive="active"
         >Registro</li>
       
-      }@else {
+      }
+      
+      @if (authService.getAuthStatus() === 'authenticated') {
+
         <button (click)="authService.logout()"
           class="btn btn-warning btn-sm"
           >Logout</button>
-      }
+      
+     }
 
 
     </ul>

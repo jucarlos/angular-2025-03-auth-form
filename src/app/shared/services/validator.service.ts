@@ -10,22 +10,24 @@ export class ValidatorService {
 
 
   public isValidField( form: FormGroup, field: string ) {
-    return form.controls[field].errors && form.controls[field].touched;
+
+    // si un campo de formulario en errors es null es que no hay errores
+    return form.controls[field].errors  && form.controls[field].touched;
   }
 
 
   public isFieldOneEqualFieldTwo( field1: string, field2: string ) {
 
-    return ( formGroup: AbstractControl ): ValidationErrors | null => {
+    // antes en lugar de FormGroup había que poner AbstractControl
+    return ( formGroup: FormGroup ): ValidationErrors | null => {
 
       const fieldValue1 = formGroup.get(field1)?.value;
       const fieldValue2 = formGroup.get(field2)?.value;
 
-
       // Si devuelves un objeto es que hay errores.
       if ( fieldValue1 !== fieldValue2 ) {
         formGroup.get(field2)?.setErrors({ notEqual: true });
-        return { notEqual: true }
+        return { noSonIguales: true  }
       }
 
       formGroup.get(field2)?.setErrors(null);
