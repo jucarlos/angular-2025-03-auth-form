@@ -1,1 +1,24 @@
-<p>detalle-producto works!</p>
+
+
+
+<h3>Datos del producto</h3>
+<hr>
+
+@if( isLoading ){
+    <shared-spinner></shared-spinner>
+}
+
+@if( product ) {
+
+<div class="card mt-3" style="width: 28rem;">
+  <img [src]="getImagenByUrl()" class="card-img-top" alt="Imagen">
+  <div class="card-body">
+    <h5 class="card-title">{{ product.title }}</h5>
+    <p class="card-text">{{ product.description }}</p>
+    <p class="card-text">{{ product.price | currency }} </p>
+
+  </div>
+</div>
+
+
+}

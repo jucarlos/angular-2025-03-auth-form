@@ -1,1 +1,38 @@
-<p>lista-productos works!</p>
+
+
+<h3>Listado de productos</h3>
+<hr>
+
+@if( isLoading ) {
+        <shared-spinner></shared-spinner>
+}
+
+@if ( products ) {
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.price | currency }} <td>
+                <td>
+                    <a 
+                        [routerLink]="['/products/detalle-producto', product.slug ]"
+                        class="btn btn-success btn-sm">Ver</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    
+}@else {
+    <shared-alert [mensaje]="'No hay productos'"></shared-alert>
+}

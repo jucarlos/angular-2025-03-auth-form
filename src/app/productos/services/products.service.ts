@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ProductsReponse } from '../interface/product-reponse.interface';
+import { Product, ProductsReponse } from '../interface/product-reponse.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,6 +18,13 @@ export class ProductsService {
 
     const url = `${this.baseUrl}/api/products`;
     return this.http.get<ProductsReponse>(url);
+
+  }
+
+  public getProductById(id: string ): Observable<Product> {
+
+    const url = `${this.baseUrl}/api/products/${id}`;
+    return this.http.get<Product>(url);
 
   }
 
