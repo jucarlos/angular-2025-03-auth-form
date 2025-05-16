@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { notAutenticatedGuard } from './auth/guards/not-autenticated.guard';
 
 const routes: Routes = [
 
@@ -12,7 +13,12 @@ const routes: Routes = [
   // auth
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule )
+    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule ),
+    canMatch: [
+
+      notAutenticatedGuard
+
+    ]
   },
 
   // Productos
